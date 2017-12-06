@@ -1,0 +1,23 @@
+{
+  "name": "openach",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsc -w",
+    "tsc": "tsc",
+    "test": "jasmine-node spec"
+  },
+  "author": "bresheske",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^8.0.55",
+    "async-file": "^2.0.2",
+    "minimist": "^1.2.0",
+    "typescript": "^2.6.2"
+  },
+  "devDependencies": {
+    "@types/jasmine-node": "^1.14.32",
+    "jasmine-node": "^1.14.5"
+  }
+}
