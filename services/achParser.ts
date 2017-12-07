@@ -16,6 +16,17 @@ export class AchParser {
 
     async parseAchFile(filename:string): Promise<AchFile> {
         return new Promise<AchFile>(async (resolve, reject) => {
+            
+            // first check to make sure the file exists, and we have permissions to open it.
+            try {
+                await fs.stat(filename);
+            }
+            catch (ex) {
+                reject(ex);
+                return;
+            }
+
+            // open the file and begin reading.
             let linenum = 0;
             let ach = new AchFile();
             let reader = readline.createInterface({
@@ -63,6 +74,10 @@ export class AchParser {
             });
             reader.on('close', () => {
                 resolve(ach);
+            });
+            reader.on('error', (err) => {
+                reject(err);
+                return;
             });
 
         });

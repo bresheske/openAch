@@ -1,4 +1,5 @@
 import { AchParser } from "./services/achParser";
+import * as path from 'path';
 
 let argv = require('minimist')(process.argv.slice(2));
 (async (args:any) => {
@@ -10,7 +11,8 @@ let argv = require('minimist')(process.argv.slice(2));
         return 1;
     }
 
+    filename = path.resolve(filename.trim());
     let parser = new AchParser();
     let ach = await parser.parseAchFile(filename);
-    console.dir(ach);
+    console.log(JSON.stringify(ach));
 })(argv);

@@ -13,8 +13,6 @@ export class RecordBatchTrailer {
     originatorAba: string;
     batchNumber: number;
 
-    entries: Array<any> = [];
-
     static parseLine(line:string, file:AchFile) : RecordBatchTrailer {
         let out = new RecordBatchTrailer();
         out.recordTypeCode = parseInt(line.substr(0, 1));

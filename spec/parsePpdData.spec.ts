@@ -6,7 +6,7 @@ describe("PPD File Parsing", () => {
     let parser = new AchParser();
 
     it("parses basic ppd file", async (done) => {
-        let result = await parser.parseAchFile(path.join(__dirname, 'sampleData/basicPpdFile.ach'))
+        let result = await parser.parseAchFile(path.join(__dirname, 'sampleData/basicPpdFile.ach'));
         expect(result.fileHeader).toBeDefined();
         expect(result.batches).not.toBeNull();
         expect(result.batches.length).toBe(1);

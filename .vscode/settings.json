@@ -2,6 +2,8 @@
     "files.exclude": {
         "**/.git": true,
         "**/**.js": true,
-        "node_modules":true
+        "**/**.map": true,
+        "node_modules":true,
+        "ach.exe":true
     }
 }

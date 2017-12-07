@@ -6,7 +6,8 @@
   "scripts": {
     "watch": "tsc -w",
     "tsc": "tsc",
-    "test": "jasmine-node spec"
+    "test": "jasmine-node spec",
+    "build": "nexe main.js -o ach.exe"
   },
   "author": "bresheske",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "@types/node": "^8.0.55",
     "async-file": "^2.0.2",
     "minimist": "^1.2.0",
+    "nexe": "^2.0.0-rc.22",
     "typescript": "^2.6.2"
   },
   "devDependencies": {
