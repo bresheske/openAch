@@ -41,8 +41,9 @@ export class AchParser {
                             ? RecordCtxEntryDetail.parseLine
                         : batch.standardEntryClass == 'POS'
                             ? RecordPosEntryDetail.parseLine
-                        : (line:string, ach:AchFile) => 
-                            { reject(`Error: standard entry class '${batch.standardEntryClass}' is not valid.`); };
+                        : (line:string, ach:AchFile) => { 
+                            reject(Error(`Error: standard entry class '${batch.standardEntryClass}' is not valid.`)); 
+                        };
                     ach.batches[ach.batches.length - 1].entries.push(parseFunc(line, ach));
                 }
                 else if (line[0] == '7') {

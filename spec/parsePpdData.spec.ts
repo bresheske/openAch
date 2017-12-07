@@ -1,11 +1,12 @@
 import { AchParser } from "../services/achParser";
 import * as path from 'path';
+import { AchFile } from "../objects/achFile";
 
-describe("Basic data parsing", () => {
+describe("PPD File Parsing", () => {
     let parser = new AchParser();
 
-    it("parses basic ach file", async (done) => {
-        let result = await parser.parseAchFile(path.join(__dirname, 'sampleData/basicAchFile.ach'));
+    it("parses basic ppd file", async (done) => {
+        let result = await parser.parseAchFile(path.join(__dirname, 'sampleData/basicPpdFile.ach'))
         expect(result.fileHeader).toBeDefined();
         expect(result.batches).not.toBeNull();
         expect(result.batches.length).toBe(1);
@@ -24,7 +25,7 @@ describe("Basic data parsing", () => {
         expect(result.fileTrailer.entryHash).toBe(9101298);
         expect(result.fileTrailer.totalDebits).toBe(0);
         expect(result.fileTrailer.totalCredits).toBe(950.00);
-        expect(result.fileTrailer.reservedData.trim()).toBe("Reserved");
+        expect(result.fileTrailer.reservedData.trim()).toBe('Reserved');
         done();
     });
 
