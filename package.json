@@ -6,8 +6,10 @@
   "scripts": {
     "watch": "tsc -w",
     "tsc": "tsc",
-    "test": "jasmine-node spec",
-    "build": "nexe main.js -o ach.exe"
+    "test": "jasmine-node spec/unitTests",
+    "build": "nexe main.js -o dist/ach.exe",
+    "e2e": "jasmine-node spec/e2eTests",
+    "deploy": "npm run test && npm run build && npm run e2e"
   },
   "author": "bresheske",
   "license": "ISC",
