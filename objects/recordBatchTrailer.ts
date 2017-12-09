@@ -20,9 +20,9 @@ export class RecordBatchTrailer {
         out.entryCount = parseInt(line.substr(4, 6));
         out.entryHash = parseInt(line.substr(10, 10));
         out.totalDebitAmount = parseFloat(`${line.substr(20, 10)}.${line.substr(30, 2)}`);
-        out.totalDebitAmount = parseFloat(`${line.substr(32, 10)}.${line.substr(42, 2)}`);
+        out.totalCreditAmount = parseFloat(`${line.substr(32, 10)}.${line.substr(42, 2)}`);
         out.companyId = line.substr(44, 10);
-        out.authenticationCode = line.substr(54, 20);
+        out.authenticationCode = line.substr(54, 19);
         out.reservedData = line.substr(73, 6);
         out.originatorAba = line.substr(79, 8);
         out.batchNumber = parseInt(line.substr(87, 7));
