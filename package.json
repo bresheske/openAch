@@ -9,16 +9,16 @@
     "test": "jasmine-node spec/unitTests",
     "build": "nexe main.js -o dist/ach.exe",
     "e2e": "jasmine-node spec/e2eTests",
-    "deploy": "npm run test && npm run build && npm run e2e"
+    "deploy": "npm run tsc && npm run test && npm run build && npm run e2e"
   },
   "author": "bresheske",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^8.0.55",
+    "@types/node": "^8.10.19",
     "async-file": "^2.0.2",
     "minimist": "^1.2.0",
-    "nexe": "^2.0.0-rc.22",
-    "typescript": "^2.6.2"
+    "nexe": "^2.0.0-rc.29",
+    "typescript": "^2.9.1"
   },
   "devDependencies": {
     "@types/jasmine-node": "^1.14.32",
