@@ -7,9 +7,9 @@
     "dev": "concurrently \"npm run watch\" \"nodemon --exec \\\"npm run test\\\" \" ",
     "watch": "tsc -w",
     "tsc": "tsc",
-    "test": "jasmine-node spec/unitTests",
+    "test": "mocha spec/unitTests",
     "build": "nexe main.js -o dist/ach.exe",
-    "e2e": "jasmine-node spec/e2eTests",
+    "e2e": "mocha spec/e2eTests",
     "deploy": "npm run tsc && npm run test && npm run build && npm run e2e"
   },
   "author": "bresheske",
@@ -22,9 +22,11 @@
     "typescript": "^2.9.1"
   },
   "devDependencies": {
-    "@types/jasmine-node": "^1.14.32",
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.1.2",
     "concurrently": "^3.6.0",
-    "jasmine-node": "^1.14.5",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.3"
   }
 }

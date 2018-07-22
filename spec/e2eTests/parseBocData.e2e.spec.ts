@@ -8,11 +8,10 @@ describe("PPD File Parsing", () => {
     let runner = new ProcessRunner();
     let exepath = path.join(path.resolve('.'), 'dist/ach.exe');
 
-    it("parses basic ppd file", async (done) => {
+    it("parses basic ppd file", async () => {
         let command = `${exepath} -f spec/sampleData/basicPpdFile.ach`;
         let json = await runner.run(command);
         let result = JSON.parse(json) as AchFile;
         AssertData.assertBasicPpdFile(result);
-        done();
     });
 });
