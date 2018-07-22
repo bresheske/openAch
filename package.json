@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm run watch\" \"nodemon --exec \\\"npm run test\\\" \" ",
     "watch": "tsc -w",
     "tsc": "tsc",
     "test": "jasmine-node spec/unitTests",
@@ -22,6 +23,8 @@
   },
   "devDependencies": {
     "@types/jasmine-node": "^1.14.32",
-    "jasmine-node": "^1.14.5"
+    "concurrently": "^3.6.0",
+    "jasmine-node": "^1.14.5",
+    "nodemon": "^1.18.3"
   }
 }
