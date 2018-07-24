@@ -1,6 +1,5 @@
 import * as fs from 'async-file';
 import * as readline from 'readline';
-import * as path from 'path';
 import { AchFile } from '../objects/achFile';
 import { RecordHeader } from '../objects/recordHeader';
 import { RecordBatch } from '../objects/recordBatch';
@@ -12,26 +11,37 @@ import { RecordCtxEntryDetail } from '../objects/recordCtxEntryDetail';
 import { RecordPosEntryDetail } from '../objects/recordPosEntryDetail';
 import { RecordBatchTrailer } from '../objects/recordBatchTrailer';
 import { RecordTrailer } from '../objects/recordTrailer';
+import { Stream, Readable } from 'stream';
 export class AchParser {
 
-    async parseAchFile(filename:string): Promise<AchFile> {
+    async parseAchFile(data:string|Readable): Promise<AchFile> {
         return new Promise<AchFile>(async (resolve, reject) => {
-            
-            // first check to make sure the file exists, and we have permissions to open it.
-            try {
-                await fs.stat(filename);
+
+            let reader;
+            // if the input is a filename, we'll open the stream to the file.
+            if (typeof data == 'string') {
+                try {
+                    await fs.stat(data);
+                    reader = readline.createInterface({
+                        input: fs.createReadStream(data)
+                    });
+                }
+                catch (ex) {
+                    reject(ex);
+                    return;
+                }
             }
-            catch (ex) {
-                reject(ex);
-                return;
+            // otherwise, we'll just open a reader to the stream.
+            else {
+                reader = readline.createInterface({
+                    input: data
+                });
             }
 
             // open the file and begin reading.
             let linenum = 0;
             let ach = new AchFile();
-            let reader = readline.createInterface({
-                input: fs.createReadStream(filename)
-            });
+            
             reader.on('line', (line) => {
                 linenum++;
 
@@ -73,6 +83,9 @@ export class AchParser {
 
             });
             reader.on('close', () => {
+                resolve(ach);
+            });
+            reader.on('end', () => {
                 resolve(ach);
             });
             reader.on('error', (err) => {

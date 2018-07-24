@@ -15,9 +15,14 @@ Here's an example call that writes out JSON from the ACH file:
 ```
 dist/ach -f spec/sampleData/basicPpdFile.ach > ach.json
 ```
+Or it also accepts piped input:
+```
+type spec/sampleData/basicPpdFile.ach | dist/ach
+dist/ach < spec/sampleData/basicPpdFile.ach
+```
 
-## Running the test methods
+## Running in Development Mode
 Run command:
 ```
-npm run test
+npm run dev
 ```
