@@ -4,7 +4,7 @@ import { AchFile } from "../../objects/achFile";
 import { RecordBocEntryDetail } from "../../objects/recordBocEntryDetail";
 import { expect } from "chai";
 
-describe("BOC File Parsing", () => {
+describe("Unit BOC File Parsing", () => {
     let parser = new AchParser();
 
     it("parses basic boc file", async () => {

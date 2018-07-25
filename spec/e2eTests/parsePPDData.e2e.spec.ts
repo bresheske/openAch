@@ -5,7 +5,7 @@ import { AchFile } from '../../objects/achFile';
 import { AssertData } from '../sampleData/assertData';
 import * as fs from 'async-file';
 
-describe("PPD File Parsing", () => {
+describe("E2E PPD File Parsing", () => {
     let runner = new ProcessRunner();
     let exepath = path.join(path.resolve('.'), 'dist/ach.exe');
 

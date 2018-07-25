@@ -11,34 +11,47 @@ import { RecordCtxEntryDetail } from '../objects/recordCtxEntryDetail';
 import { RecordPosEntryDetail } from '../objects/recordPosEntryDetail';
 import { RecordBatchTrailer } from '../objects/recordBatchTrailer';
 import { RecordTrailer } from '../objects/recordTrailer';
-import { Stream, Readable } from 'stream';
+import { Readable } from 'stream';
+import { ReadLine } from 'readline';
+import { Logger } from './logger';
 export class AchParser {
+
+    private async createReadStream(data:string|Readable): Promise<ReadLine> {
+        let stream: ReadLine;
+        if (typeof data == 'string') {
+            try {
+                await fs.stat(data);
+                stream = readline.createInterface({
+                    input: fs.createReadStream(data)
+                });
+            }
+            catch (ex) {
+                let m = `Error reading file '${data}'. Message: ${ex}.`;
+                Logger.log(m);
+                throw new Error(m);
+            }
+        }
+        else {
+            stream = readline.createInterface({
+                input: data
+            });
+        }
+        return stream;
+    }
 
     async parseAchFile(data:string|Readable): Promise<AchFile> {
         return new Promise<AchFile>(async (resolve, reject) => {
-
-            let reader;
-            // if the input is a filename, we'll open the stream to the file.
-            if (typeof data == 'string') {
-                try {
-                    await fs.stat(data);
-                    reader = readline.createInterface({
-                        input: fs.createReadStream(data)
-                    });
-                }
-                catch (ex) {
-                    reject(ex);
-                    return;
-                }
+            let reader:ReadLine;
+            try {
+                reader = await this.createReadStream(data);
             }
-            // otherwise, we'll just open a reader to the stream.
-            else {
-                reader = readline.createInterface({
-                    input: data
-                });
+            catch (ex) {
+                let m = `Error creating read stream for ACH parser.`;
+                Logger.log(m);
+                reject(Error(m));
+                return;
             }
 
-            // open the file and begin reading.
             let linenum = 0;
             let ach = new AchFile();
             
@@ -62,8 +75,11 @@ export class AchParser {
                             ? RecordCtxEntryDetail.parseLine
                         : batch.standardEntryClass == 'POS'
                             ? RecordPosEntryDetail.parseLine
-                        : (line:string, ach:AchFile) => { 
-                            reject(Error(`Error: standard entry class '${batch.standardEntryClass}' is not valid.`)); 
+                        : (line:string, ach:AchFile) => {
+                            let m = `Error(line ${linenum}): standard entry class '${batch.standardEntryClass}' is not valid.`;
+                            Logger.log(m);
+                            reject(Error(m));
+                            return;
                         };
                     ach.batches[ach.batches.length - 1].entries.push(parseFunc(line, ach));
                 }
@@ -89,6 +105,7 @@ export class AchParser {
                 resolve(ach);
             });
             reader.on('error', (err) => {
+                Logger.log(`Error while reading ACH stream. ${err}`);
                 reject(err);
                 return;
             });
