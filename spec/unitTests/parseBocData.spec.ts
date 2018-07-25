@@ -3,9 +3,14 @@ import * as path from 'path';
 import { AchFile } from "../../objects/achFile";
 import { RecordBocEntryDetail } from "../../objects/recordBocEntryDetail";
 import { expect } from "chai";
+import { Logger } from "../../services/logger";
 
 describe("Unit BOC File Parsing", () => {
     let parser = new AchParser();
+
+    beforeEach(() => {
+        Logger.init(true);
+    });
 
     it("parses basic boc file", async () => {
         let result = await parser.parseAchFile(path.join(__dirname, '../sampleData/basicBocFile.ach'));
