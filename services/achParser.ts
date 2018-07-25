@@ -27,7 +27,7 @@ export class AchParser {
             }
             catch (ex) {
                 let m = `AchParser: error reading file '${data}'. Message: ${ex}.`;
-                Logger.log(m);
+                Logger.error(m);
                 throw new Error(m);
             }
         }
@@ -57,11 +57,11 @@ export class AchParser {
                     ? RecordCtxEntryDetail.parseLine
                 : batch.standardEntryClass == 'POS'
                     ? RecordPosEntryDetail.parseLine
-                : (line:string, ach:AchFile) => {
-                    let m = `AchParser: error(line ${linenum}): standard entry class '${batch.standardEntryClass}' is not valid.`;
-                    Logger.log(m);
-                    throw new Error(m);
-                };
+                : null;
+            if (!parseFunc) {
+                let m = `AchParser: error(line ${linenum}): standard entry class '${batch.standardEntryClass}' is not valid.`;
+                throw new Error(m);
+            }
             ach.batches[ach.batches.length - 1].entries.push(parseFunc(line, ach));
         }
         else if (line[0] == '7') {
@@ -77,6 +77,10 @@ export class AchParser {
         else if (line[0] == '9') {
             ach.fileTrailer = RecordTrailer.parseLine(line, ach);
         }
+        else {
+            let m = `AchParser: error(line ${linenum}): record type code '${line[0]}' is not valid.`;
+            throw new Error(m);
+        }
     }
 
     async parseAchFile(data:string|Readable): Promise<AchFile> {
@@ -84,11 +88,11 @@ export class AchParser {
             let reader:ReadLine;
             try {
                 reader = await this.createReadStream(data);
-                Logger.log(`AchParser: stream opened successfully.`);
+                Logger.info(`AchParser: stream opened successfully.`);
             }
             catch (ex) {
                 let m = `AchParser: error creating read stream for ACH parser.`;
-                Logger.log(m);
+                Logger.error(m);
                 reject(Error(m));
                 return;
             }
@@ -102,23 +106,22 @@ export class AchParser {
                     this.handleLine(line, ach, linenum);
                 }
                 catch (ex) {
-                    let m = `AchParser: error reading line ${linenum}.`;
-                    Logger.log(m);
-                    reader.close();
+                    let m = `AchParser: error reading line ${linenum}. ${ex}`;
+                    Logger.error(m);
                     reject(Error(m));
                 }
             });
             reader.on('close', () => {
-                Logger.log(`AchParser: stream closed. Lines read: ${linenum}.`);
+                Logger.info(`AchParser: stream closed. Lines read: ${linenum}.`);
                 resolve(ach);
             });
             reader.on('end', () => {
-                Logger.log(`AchParser: stream ended. Lines read: ${linenum}.`);
+                Logger.info(`AchParser: stream ended. Lines read: ${linenum}.`);
                 resolve(ach);
             });
             reader.on('error', (err) => {
-                Logger.log(`AchParser: error while reading ACH stream. ${err}`);
-                reject(err);
+                Logger.error(`AchParser: error while reading ACH stream. ${err}`);
+                reject(Error(err));
             });
 
         });

@@ -13,12 +13,17 @@ export class Logger {
                 ]
             });
             this.session = uuid();
-            this.log(`Logger: started new session.`);
+            this.info(`Logger: started new session.`);
         }
     }
 
-    public static async log(message:string) {
+    public static async info(message:string) {
         this.init();
         this.wlog.info({session: this.session, message: message, time: new Date()});
+    }
+
+    public static async error(message:string) {
+        this.init();
+        this.wlog.error({session: this.session, message: message, time: new Date()});
     }
 }

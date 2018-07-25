@@ -15,6 +15,11 @@
   },
   "author": "bresheske",
   "license": "ISC",
+  "nyc": {
+    "exclude": [
+      "spec/**"
+    ]
+  },
   "dependencies": {
     "async-file": "^2.0.2",
     "bunyan": "^1.8.12",

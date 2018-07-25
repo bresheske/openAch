@@ -1,5 +1,6 @@
 import { AchParser } from "./services/achParser";
 import * as path from 'path';
+import { Logger } from "./services/logger";
 
 let argv = require('minimist')(process.argv.slice(2));
 (async (args:any) => {

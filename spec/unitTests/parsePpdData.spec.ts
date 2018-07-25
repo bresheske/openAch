@@ -1,6 +1,5 @@
 import { AchParser } from "../../services/achParser";
 import * as path from 'path';
-import { AchFile } from "../../objects/achFile";
 import { AssertData } from "../sampleData/assertData";
 import { Logger } from "../../services/logger";
 

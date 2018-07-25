@@ -15,7 +15,13 @@ export class RecordHeader {
     immediateOriginName:string;
     referenceCode:string;
 
+    private static validateLine(line:string) {
+        if (!line || line.length !== 94)
+            throw new Error('RecordHeader: Line must be 94 characters in length.');
+    }
+
     static parseLine(line:string, file:AchFile) : RecordHeader {
+        this.validateLine(line);
         let out = new RecordHeader();
         out.recordTypeCode = parseInt(line.substr(0, 1));
         out.priorityCode = parseInt(line.substr(1,2));

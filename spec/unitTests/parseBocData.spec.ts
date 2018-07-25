@@ -1,6 +1,5 @@
 import { AchParser } from "../../services/achParser";
 import * as path from 'path';
-import { AchFile } from "../../objects/achFile";
 import { RecordBocEntryDetail } from "../../objects/recordBocEntryDetail";
 import { expect } from "chai";
 import { Logger } from "../../services/logger";
