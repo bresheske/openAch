@@ -6,7 +6,7 @@ https://www.nacha.org/system/files/resources/AAP201%20-%20ACH%20File%20Formattin
 
 ## Installing
 Run command:
-```
+```bash
 npm install
 npm run deploy
 ```
@@ -14,17 +14,17 @@ These commands will install the dependencies, run the unit tests, deploy the sof
 
 ## Running
 Here's an example call that writes out JSON from the ACH file:
-```
+```bash
 dist/ach -f spec/sampleData/basicPpdFile.ach > ach.json
 ```
 Or it also accepts piped input:
-```
-type spec/sampleData/basicPpdFile.ach | dist/ach
-dist/ach < spec/sampleData/basicPpdFile.ach
+```bash
+type spec/sampleData/basicPpdFile.ach | dist/ach > ach.json
+dist/ach < spec/sampleData/basicPpdFile.ach > ach.json
 ```
 
 ## Running in Development Mode
 Run command:
-```
+```bash
 npm run dev
 ```
