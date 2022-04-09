@@ -23,7 +23,7 @@
   "dependencies": {
     "async-file": "^2.0.2",
     "bunyan": "^1.8.12",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.6",
     "uuid": "^3.3.2",
     "winston": "^3.0.0"
   },
